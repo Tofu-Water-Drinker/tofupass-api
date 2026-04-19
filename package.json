@@ -1,0 +1,25 @@
+{
+  "name": "tofupass-api",
+  "version": "1.0.0",
+  "description": "Tiny Express API that generates passwords and passphrases using crypto.randomInt. Powers the /api/* endpoints on tofupass.com.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "GPL-3.0-only",
+  "author": "Matthew Johnson (TofuWater)",
+  "homepage": "https://github.com/Tofu-Water-Drinker/tofupass-api",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tofu-Water-Drinker/tofupass-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Tofu-Water-Drinker/tofupass-api/issues"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

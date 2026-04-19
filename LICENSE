@@ -1,0 +1,28 @@
+GNU GENERAL PUBLIC LICENSE
+Version 3, 29 June 2007
+
+Copyright (c) 2026 Matthew Johnson (TofuWater)
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+---
+
+EXCEPTIONS TO GPL v3:
+
+Brand Assets (Non-GPL):
+The "TofuPass" name and any associated mascot or logo artwork are NOT
+covered by this license and remain the exclusive property of
+Matthew Johnson / TofuWater. You may fork and modify the code under
+GPL v3 terms, but you must use your own branding when publishing a
+public fork or a publicly hosted instance of this API.
