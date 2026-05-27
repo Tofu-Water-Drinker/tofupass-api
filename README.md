@@ -8,11 +8,13 @@ Companion to the [TofuPass frontend](https://github.com/Tofu-Water-Drinker/tofup
 
 | Method | Path | Description |
 | --- | --- | --- |
-| `GET` | `/api/password` | Returns a single password like `!DancingKoala73` as `text/plain`. |
-| `GET` | `/api/passphrase?count=N` | Returns a hyphen-joined passphrase of `N` unique words. `N` must be between 4 and 30 (default `4`). |
+| `GET` | `/api/password?lang=CODE` | Returns a single password like `!DancingKoala73` as `text/plain`. |
+| `GET` | `/api/passphrase?count=N&lang=CODE` | Returns a hyphen-joined passphrase of `N` unique words. `N` must be between 4 and 30 (default `4`). |
 | `GET` | `/api/stats` | Returns in-memory counters as JSON. Resets on every restart. No PII. |
 
 All successful responses are `text/plain` for the two generation endpoints and `application/json` for stats. Errors on `/api/passphrase` return HTTP 400 with a plain-text message.
+
+`lang` is optional and defaults to English. Supported language codes are `en`, `es`, `pt`, `fr`, `de`, `ja`, `zh-cn`, `ar`, `id`, `hi`, and `ru`.
 
 ### Examples
 
@@ -20,8 +22,14 @@ All successful responses are `text/plain` for the two generation endpoints and `
 curl https://tofupass.com/api/password
 # -> %BrightKoala42
 
+curl "https://tofupass.com/api/password?lang=es"
+# -> !Alegrejardin73
+
 curl "https://tofupass.com/api/passphrase?count=6"
 # -> koala-breeze-juniper-quartz-lantern-harbor
+
+curl "https://tofupass.com/api/passphrase?count=4&lang=es"
+# -> abrazo-bosque-camino-luna
 
 curl https://tofupass.com/api/stats
 # -> {"generated_passwords":1234,"generated_passphrases":567,"total_api_calls":1801}

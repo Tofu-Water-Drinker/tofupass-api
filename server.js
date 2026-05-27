@@ -3,15 +3,16 @@
 // using cryptographically secure randomness (Node's crypto.randomInt).
 //
 // Endpoints:
-//   GET /api/password              -> plain-text password
-//   GET /api/passphrase?count=N    -> N-word passphrase (N between 4 and 30, default 4)
+//   GET /api/password?lang=CODE    -> plain-text password
+//   GET /api/passphrase?count=N&lang=CODE
+//                                    -> N-word passphrase (N between 4 and 30, default 4)
 //   GET /api/stats                 -> in-memory counters (reset on restart)
 //
 // Licensed under GPL v3. See LICENSE.
 
 const express = require('express');
 const crypto = require('crypto');
-const { firstWords, secondWords, passphraseWords, specialChars } = require('./wordlists');
+const { getWordLists, specialChars } = require('./wordlists');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -34,6 +35,7 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 // GET /api/password -> plain-text password like "!DancingKoala73"
 app.get('/api/password', (req, res) => {
+  const { firstWords, secondWords } = getWordLists(req.query.lang);
   const firstWord = getRandomWord(firstWords);
   const secondWord = getRandomWord(secondWords);
   const randomSpecial = getRandomItem(specialChars);
@@ -58,12 +60,20 @@ app.get('/api/password', (req, res) => {
 // GET /api/passphrase?count=N -> hyphen-joined passphrase, e.g. "koala-breeze-juniper-quartz"
 app.get('/api/passphrase', (req, res) => {
   const count = req.query.count === undefined ? 4 : parseInt(req.query.count, 10);
+  const { passphraseWords } = getWordLists(req.query.lang);
 
   if (isNaN(count) || count < 4 || count > 30) {
     return res
       .status(400)
       .type('text/plain')
-      .send('Error: The "count" parameter must be a number between 4 and 30.');
+      .send('count must be between 4 and 30');
+  }
+
+  if (count > passphraseWords.length) {
+    return res
+      .status(400)
+      .type('text/plain')
+      .send('Error: The selected language does not have enough unique words for that count.');
   }
 
   const selectedWords = new Set();
