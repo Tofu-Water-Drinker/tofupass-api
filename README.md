@@ -79,7 +79,17 @@ The API does not log generated passwords, does not persist anything to disk, and
 
 ## A note on rate limiting
 
-There is no built-in rate limiting. The production site sits behind Cloudflare, which handles abuse at the edge. If you self-host, put this behind a reverse proxy with rate limiting (nginx `limit_req`, Cloudflare rules, `express-rate-limit`, etc.) — otherwise a single client can hammer `/api/password` as fast as the event loop can serve it.
+The generation endpoints include a small privacy-preserving in-memory rate limiter. It allows a sustained 1 generated password/passphrase per second with a small burst cushion, plus 1,000 generated passwords/passphrases per hour.
+
+The limiter does not store raw IP addresses. It stores short-lived HMAC keys derived from the client address and the current hour using a secret generated at process startup. Those keys reset when the process restarts and rotate naturally by hour. Generated passwords and passphrases are still never logged or persisted.
+
+You can tune the limits with:
+
+```bash
+RATE_LIMIT_REFILL_PER_SECOND=1 RATE_LIMIT_BURST=10 RATE_LIMIT_HOURLY=1000 npm start
+```
+
+The production site may still use Cloudflare to absorb larger attacks at the edge.
 
 ## Contributing
 
